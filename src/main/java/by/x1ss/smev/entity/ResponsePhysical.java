@@ -1,8 +1,6 @@
 package by.x1ss.smev.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +8,8 @@ import java.time.LocalDate;
 @Entity
 @Setter
 @Getter
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
 public class ResponsePhysical {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,12 +27,7 @@ public class ResponsePhysical {
     @Column(nullable = false)
     private String administrativeCode;
 
-    public ResponsePhysical(Answer answer) {
-        this.sts = answer.getSts();
-        this.accrualAmount = answer.getAccrualAmount();
-        this.amountPay = answer.getAmountPay();
-        this.resolutionNumber = answer.getResolutionNumber();
-        this.resolutionDate = answer.getResolutionDate();
-        this.administrativeCode = answer.getAdministrativeCode();
+    public ResponsePhysical() {
     }
+
 }

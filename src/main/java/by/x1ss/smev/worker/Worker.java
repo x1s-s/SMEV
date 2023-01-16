@@ -9,6 +9,7 @@ import by.x1ss.smev.repository.ResponsePhysicalRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,10 +28,8 @@ public class Worker extends Thread {
     @Override
     public void run() {
         while (true) {
-            log.info("Worker started");
-            List<RequestQueue> requests = requestRepository.findAll();
-            requestRepository.deleteAll(requests);
-            log.info("Worker got {} requests", requests.size());
+            log.info("Worker started processing requsets");
+            List<RequestQueue> requests = getRequests();
             List<ResponseJuridical> responseJuridical = new ArrayList<>();
             List<ResponsePhysical> responsePhysicals = new ArrayList<>();
             for (RequestQueue request : requests) {
@@ -47,19 +46,21 @@ public class Worker extends Thread {
                     );
                 } else {
                     responsePhysicals.add(
-                            new ResponsePhysical()
+                            ResponsePhysical.builder().
+                                    sts(request.getStr()).
+                                    resolutionNumber(123).
+                                    resolutionDate(LocalDate.MAX).
+                                    administrativeCode("123").
+                                    accrualAmount(123).
+                                    amountPay(123).
+                                    build()
                     );
                 }
             }
             log.info("Worker got {} juridical responses", responseJuridical.size());
             log.info("Worker got {} physical responses", responsePhysicals.size());
-            if(!responseJuridical.isEmpty()) {
-                responseJuridicalRepository.saveAll(responseJuridical);
-            }
-            if(!responsePhysicals.isEmpty()) {
-                responsePhysicalRepository.saveAll(responsePhysicals);
-            }
-            log.info("Worker finished");
+            putResponses(responseJuridical, responsePhysicals);
+            log.info("Worker finished processing requests");
             while (requestRepository.count() == 0) {
                 try {
                     Thread.sleep(250);
@@ -67,6 +68,24 @@ public class Worker extends Thread {
                     e.printStackTrace();
                 }
             }
+
+        }
+    }
+
+    @Transactional
+    protected List<RequestQueue> getRequests() {
+        List<RequestQueue> requests = requestRepository.findAll();
+        requestRepository.deleteAll(requests);
+        return requests;
+    }
+
+    @Transactional
+    protected void putResponses(List<ResponseJuridical> responseJuridical, List<ResponsePhysical> responsePhysicals) {
+        if (!responseJuridical.isEmpty()) {
+            responseJuridicalRepository.saveAll(responseJuridical);
+        }
+        if (!responsePhysicals.isEmpty()) {
+            responsePhysicalRepository.saveAll(responsePhysicals);
         }
     }
 }
