@@ -20,13 +20,13 @@ public class SmevController {
     @PostMapping("/request/juridical/")
     public HttpStatus putJuridicalRequest(@RequestBody String inn) {
         requestService.putJuridicalRequest(inn);
-        return HttpStatus.OK;
+        return HttpStatus.PROCESSING;
     }
 
     @PostMapping("/request/physical/")
     public HttpStatus putPhysicalRequest(@RequestBody String sts) {
         requestService.putPhysicalRequest(sts);
-        return HttpStatus.OK;
+        return HttpStatus.PROCESSING;
     }
 
 
