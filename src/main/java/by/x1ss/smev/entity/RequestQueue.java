@@ -2,23 +2,23 @@ package by.x1ss.smev.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 public class RequestQueue {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String uuid;
     @Column(nullable = false)
     private String str;
     @Column(nullable = false)
     private Boolean isJuridical;
 
-    public RequestQueue() {
-    }
 }

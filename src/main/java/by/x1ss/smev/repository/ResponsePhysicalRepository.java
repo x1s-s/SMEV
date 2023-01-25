@@ -5,15 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface ResponsePhysicalRepository extends JpaRepository<ResponsePhysical, Long> {
-    @Query("from ResponsePhysical where sts = ?1")
-    ResponsePhysical findFirstBySts(String inn);
+public interface ResponsePhysicalRepository extends JpaRepository<ResponsePhysical, String> {
 
-    @Transactional
+    @Query("from ResponsePhysical where uuid = ?1")
+    ResponsePhysical findFirstByUuid(String uuid);
+
+
     @Modifying
-    @Query("delete from ResponsePhysical where sts = ?1")
-    void deleteBySts(String sts);
+    @Query("delete from ResponsePhysical where uuid = ?1")
+    void deleteByUuid(String uuid);
 }

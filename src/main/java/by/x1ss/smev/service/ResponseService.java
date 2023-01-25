@@ -6,7 +6,11 @@ import by.x1ss.smev.repository.ResponseJuridicalRepository;
 import by.x1ss.smev.repository.ResponsePhysicalRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -16,23 +20,28 @@ public class ResponseService {
     @Autowired
     private ResponseJuridicalRepository responseJuridicalRepository;
 
-    public ResponseJuridical getJuridicalResponse(String inn) {
-        log.info("ResponseService got juridical request with inn {}", inn);
-        return responseJuridicalRepository.findFirstByInn(inn);
+
+    public ResponseJuridical getJuridicalResponse(UUID uuid) {
+        log.info("ResponseService got juridical request with uuid {}", uuid);
+        return responseJuridicalRepository.findFirstByUuid(uuid.toString());
     }
 
-    public ResponsePhysical getPhysicalResponse(String sts) {
-        log.info("ResponseService got physical response with sts {}", sts);
-        return responsePhysicalRepository.findFirstBySts(sts);
+    public ResponsePhysical getPhysicalResponse(UUID uuid) {
+        log.info("ResponseService got physical response with uuid {}", uuid);
+        return responsePhysicalRepository.findFirstByUuid(uuid.toString());
     }
 
-    public void confirmJuridicalResponse(String inn) {
-        log.info("ResponseService delete juridical response with inn {}", inn);
-        responseJuridicalRepository.deleteByInn(inn);
+    @Transactional
+    @Modifying
+    public void confirmJuridicalResponse(UUID uuid) {
+        log.info("ResponseService delete juridical response with uuid {}", uuid);
+        responseJuridicalRepository.deleteByUuid(uuid.toString());
     }
 
-    public void confirmPhysicalResponse(String sts) {
-        log.info("ResponseService delete sts {}", sts);
-        responsePhysicalRepository.deleteBySts(sts);
+    @Transactional
+    @Modifying
+    public void confirmPhysicalResponse(UUID uuid) {
+        log.info("ResponseService delete physical response with uuid {}", uuid);
+        responsePhysicalRepository.deleteByUuid(uuid.toString());
     }
 }

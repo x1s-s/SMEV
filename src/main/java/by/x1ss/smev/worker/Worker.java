@@ -9,10 +9,9 @@ import by.x1ss.smev.repository.ResponsePhysicalRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -28,38 +27,8 @@ public class Worker extends Thread {
     @Override
     public void run() {
         while (true) {
-            log.info("Worker started processing requsets");
-            List<RequestQueue> requests = getRequests();
-            List<ResponseJuridical> responseJuridical = new ArrayList<>();
-            List<ResponsePhysical> responsePhysicals = new ArrayList<>();
-            for (RequestQueue request : requests) {
-                if (request.getIsJuridical()) {
-                    responseJuridical.add(
-                            ResponseJuridical.builder().
-                                    inn(request.getStr()).
-                                    resolutionNumber(123).
-                                    resolutionDate(LocalDate.MAX).
-                                    administrativeCode("123").
-                                    accrualAmount(123).
-                                    amountPay(123).
-                                    build()
-                    );
-                } else {
-                    responsePhysicals.add(
-                            ResponsePhysical.builder().
-                                    sts(request.getStr()).
-                                    resolutionNumber(123).
-                                    resolutionDate(LocalDate.MAX).
-                                    administrativeCode("123").
-                                    accrualAmount(123).
-                                    amountPay(123).
-                                    build()
-                    );
-                }
-            }
-            log.info("Worker got {} juridical responses", responseJuridical.size());
-            log.info("Worker got {} physical responses", responsePhysicals.size());
-            putResponses(responseJuridical, responsePhysicals);
+            log.info("Worker started processing requests");
+            processRequests();
             log.info("Worker finished processing requests");
             while (requestRepository.count() == 0) {
                 try {
@@ -68,24 +37,37 @@ public class Worker extends Thread {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 
-    @Transactional
-    protected List<RequestQueue> getRequests() {
+    private void processRequests() {
         List<RequestQueue> requests = requestRepository.findAll();
+        log.info("Worker got {} requests", Arrays.toString(requests.toArray()));
+        for (RequestQueue request : requests) {
+            if (request.getIsJuridical()) {
+                ResponseJuridical responseJuridical = ResponseJuridical.builder().
+                        inn(request.getStr()).
+                        uuid(request.getUuid()).
+                        resolutionNumber(123).
+                        resolutionDate(LocalDate.MAX).
+                        administrativeCode("123").
+                        accrualAmount(123).
+                        amountPay(123).
+                        build();
+                responseJuridicalRepository.save(responseJuridical);
+            } else {
+                ResponsePhysical responsePhysical = ResponsePhysical.builder().
+                        sts(request.getStr()).
+                        uuid(request.getUuid()).
+                        resolutionNumber(123).
+                        resolutionDate(LocalDate.MAX).
+                        administrativeCode("123").
+                        accrualAmount(123).
+                        amountPay(123).
+                        build();
+                responsePhysicalRepository.save(responsePhysical);
+            }
+        }
         requestRepository.deleteAll(requests);
-        return requests;
-    }
-
-    @Transactional
-    protected void putResponses(List<ResponseJuridical> responseJuridical, List<ResponsePhysical> responsePhysicals) {
-        if (!responseJuridical.isEmpty()) {
-            responseJuridicalRepository.saveAll(responseJuridical);
-        }
-        if (!responsePhysicals.isEmpty()) {
-            responsePhysicalRepository.saveAll(responsePhysicals);
-        }
     }
 }

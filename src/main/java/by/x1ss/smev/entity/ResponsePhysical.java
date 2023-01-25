@@ -2,7 +2,9 @@ package by.x1ss.smev.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
@@ -10,10 +12,11 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class ResponsePhysical {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String uuid;
     @Column(nullable = false)
     private String sts;
     @Column(nullable = false)
@@ -26,8 +29,4 @@ public class ResponsePhysical {
     private LocalDate resolutionDate;
     @Column(nullable = false)
     private String administrativeCode;
-
-    public ResponsePhysical() {
-    }
-
 }
