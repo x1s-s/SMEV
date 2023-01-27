@@ -1,11 +1,13 @@
 package by.x1ss.smev.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -16,7 +18,8 @@ import java.time.LocalDate;
 @ToString
 public class ResponsePhysical {
     @Id
-    private String uuid;
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    private UUID uuid;
     @Column(nullable = false)
     private String sts;
     @Column(nullable = false)

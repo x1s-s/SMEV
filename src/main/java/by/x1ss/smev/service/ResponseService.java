@@ -23,25 +23,25 @@ public class ResponseService {
 
     public ResponseJuridical getJuridicalResponse(UUID uuid) {
         log.info("ResponseService got juridical request with uuid {}", uuid);
-        return responseJuridicalRepository.findFirstByUuid(uuid.toString());
+        return responseJuridicalRepository.findFirstByUuid(uuid);
     }
 
     public ResponsePhysical getPhysicalResponse(UUID uuid) {
         log.info("ResponseService got physical response with uuid {}", uuid);
-        return responsePhysicalRepository.findFirstByUuid(uuid.toString());
+        return responsePhysicalRepository.findFirstByUuid(uuid);
     }
 
     @Transactional
     @Modifying
     public void confirmJuridicalResponse(UUID uuid) {
         log.info("ResponseService delete juridical response with uuid {}", uuid);
-        responseJuridicalRepository.deleteByUuid(uuid.toString());
+        responseJuridicalRepository.deleteByUuid(uuid);
     }
 
     @Transactional
     @Modifying
     public void confirmPhysicalResponse(UUID uuid) {
         log.info("ResponseService delete physical response with uuid {}", uuid);
-        responsePhysicalRepository.deleteByUuid(uuid.toString());
+        responsePhysicalRepository.deleteByUuid(uuid);
     }
 }

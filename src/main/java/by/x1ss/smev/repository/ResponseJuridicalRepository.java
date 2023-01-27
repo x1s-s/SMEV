@@ -6,14 +6,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface ResponseJuridicalRepository extends JpaRepository<ResponseJuridical, String> {
+public interface ResponseJuridicalRepository extends JpaRepository<ResponseJuridical, UUID> {
 
 
     @Query("from ResponseJuridical where uuid = ?1")
-    ResponseJuridical findFirstByUuid(String uuid);
+    ResponseJuridical findFirstByUuid(UUID uuid);
 
     @Modifying
     @Query("delete from ResponseJuridical where uuid = ?1")
-    void deleteByUuid(String uuid);
+    void deleteByUuid(UUID uuid);
 }

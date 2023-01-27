@@ -6,14 +6,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface ResponsePhysicalRepository extends JpaRepository<ResponsePhysical, String> {
+public interface ResponsePhysicalRepository extends JpaRepository<ResponsePhysical, UUID> {
 
     @Query("from ResponsePhysical where uuid = ?1")
-    ResponsePhysical findFirstByUuid(String uuid);
+    ResponsePhysical findFirstByUuid(UUID uuid);
 
 
     @Modifying
     @Query("delete from ResponsePhysical where uuid = ?1")
-    void deleteByUuid(String uuid);
+    void deleteByUuid(UUID uuid);
 }
