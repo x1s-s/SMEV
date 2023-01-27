@@ -12,16 +12,14 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
-public class ResponseJuridical {
+public class ResponseQueue {
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID uuid;
     @Column(nullable = false)
-    private String inn;
+    private String clientIdentifier;
     @Column(nullable = false)
     private double accrualAmount;
     @Column(nullable = false)
@@ -32,4 +30,18 @@ public class ResponseJuridical {
     private LocalDate resolutionDate;
     @Column(nullable = false)
     private String administrativeCode;
+    @Column
+    private Boolean isJuridical;
+
+    public ResponseQueue(RequestQueue requestQueue) {
+        this.uuid = requestQueue.getUuid();
+        this.clientIdentifier = requestQueue.getClientIdentifier();
+        this.isJuridical = requestQueue.getIsJuridical();
+        double hash = requestQueue.getClientIdentifier().hashCode();
+        accrualAmount = hash;
+        amountPay = hash;
+        resolutionNumber = hash;
+        resolutionDate = LocalDate.MAX;
+        administrativeCode = hash + "";
+    }
 }

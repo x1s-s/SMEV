@@ -1,8 +1,7 @@
 package by.x1ss.smev.controller;
 
 import by.x1ss.smev.entity.RequestQueue;
-import by.x1ss.smev.entity.ResponseJuridical;
-import by.x1ss.smev.entity.ResponsePhysical;
+import by.x1ss.smev.entity.ResponseQueue;
 import by.x1ss.smev.service.RequestService;
 import by.x1ss.smev.service.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +25,13 @@ public class SmevController {
         return HttpStatus.PROCESSING;
     }
 
-    @GetMapping("response/juridical/{uuid}")
-    public ResponseJuridical getJuridicalResponse(@PathVariable UUID uuid) {
-        return responseService.getJuridicalResponse(uuid);
+    @GetMapping("response/{uuid}")
+    public ResponseQueue getResponse(@PathVariable UUID uuid) {
+        return responseService.getResponse(uuid);
     }
 
-    @GetMapping("response/physical/{uuid}")
-    public ResponsePhysical getPhysicalResponse(@PathVariable UUID uuid) {
-        return responseService.getPhysicalResponse(uuid);
-    }
-
-
-    @DeleteMapping("response/juridical/confirm/{uuid}")
-    public void confirmJuridicalResponse(@PathVariable UUID uuid) {
-        responseService.confirmJuridicalResponse(uuid);
-    }
-
-    @DeleteMapping("response/physical/confirm/{uuid}")
-    public void confirmPhysicalResponse(@PathVariable UUID uuid) {
-        responseService.confirmPhysicalResponse(uuid);
+    @DeleteMapping("response/confirm/{uuid}")
+    public void confirmResponse(@PathVariable UUID uuid) {
+        responseService.confirmResponse(uuid);
     }
 }

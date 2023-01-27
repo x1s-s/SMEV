@@ -1,14 +1,10 @@
 package by.x1ss.smev.service;
 
-import by.x1ss.smev.entity.ResponseJuridical;
-import by.x1ss.smev.entity.ResponsePhysical;
-import by.x1ss.smev.repository.ResponseJuridicalRepository;
-import by.x1ss.smev.repository.ResponsePhysicalRepository;
+import by.x1ss.smev.entity.ResponseQueue;
+import by.x1ss.smev.repository.ResponseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -16,32 +12,15 @@ import java.util.UUID;
 @Slf4j
 public class ResponseService {
     @Autowired
-    private ResponsePhysicalRepository responsePhysicalRepository;
-    @Autowired
-    private ResponseJuridicalRepository responseJuridicalRepository;
+    private ResponseRepository responseRepository;
 
-
-    public ResponseJuridical getJuridicalResponse(UUID uuid) {
-        log.info("ResponseService got juridical request with uuid {}", uuid);
-        return responseJuridicalRepository.findFirstByUuid(uuid);
+    public ResponseQueue getResponse(UUID uuid) {
+        log.info("ResponseService got response with uuid {}", uuid);
+        return responseRepository.findByUuid(uuid);
     }
 
-    public ResponsePhysical getPhysicalResponse(UUID uuid) {
-        log.info("ResponseService got physical response with uuid {}", uuid);
-        return responsePhysicalRepository.findFirstByUuid(uuid);
-    }
-
-    @Transactional
-    @Modifying
-    public void confirmJuridicalResponse(UUID uuid) {
-        log.info("ResponseService delete juridical response with uuid {}", uuid);
-        responseJuridicalRepository.deleteByUuid(uuid);
-    }
-
-    @Transactional
-    @Modifying
-    public void confirmPhysicalResponse(UUID uuid) {
-        log.info("ResponseService delete physical response with uuid {}", uuid);
-        responsePhysicalRepository.deleteByUuid(uuid);
+    public void confirmResponse(UUID uuid) {
+        log.info("ResponseService delete response with uuid {}", uuid);
+        responseRepository.deleteByUuid(uuid);
     }
 }

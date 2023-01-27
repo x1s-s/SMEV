@@ -20,7 +20,7 @@ public class RequestQueue {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID uuid;
     @Column(nullable = false)
-    private String str;
+    private String clientIdentifier;
     @Column(nullable = false)
     private Boolean isJuridical;
 
