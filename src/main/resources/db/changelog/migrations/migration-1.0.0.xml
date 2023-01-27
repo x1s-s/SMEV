@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="create-request_queue" author="x1ss">
+        <createTable tableName="request_queue">
+            <column name="UUID" type="uuid">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="client_identifier" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_juridical" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-response_queue" author="x1ss">
+        <createTable tableName="response_queue">
+            <column name="UUID" type="uuid">
+                <constraints unique="true"/>
+            </column>
+            <column name="client_identifier" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accrual_amount" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount_pay" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resolution_number" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resolution_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="administrative_code" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_juridical" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
