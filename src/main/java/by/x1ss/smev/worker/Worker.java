@@ -40,7 +40,7 @@ public class Worker extends Thread {
         log.info("Worker got {} requests", Arrays.toString(requests.toArray()));
         for (RequestQueue request : requests) {
             responseRepository.save(new ResponseQueue(request));
+            requestRepository.deleteByUUID(request.getUuid());
         }
-        requestRepository.deleteAll(requests);
     }
 }
