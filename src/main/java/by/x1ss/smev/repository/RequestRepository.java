@@ -20,4 +20,6 @@ public interface RequestRepository{
 
     Long count();
 
+    RequestQueue findByUuid(UUID uuid);
+
 }

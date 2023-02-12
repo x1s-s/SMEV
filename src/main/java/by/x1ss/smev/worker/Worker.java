@@ -29,13 +29,13 @@ public class Worker extends Thread {
                 try {
                     Thread.sleep(250);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.error("Worker was interrupted", e);
                 }
             }
         }
     }
 
-    private void processRequests() {
+    public void processRequests() {
         List<RequestQueue> requests = requestRepository.findAll();
         log.info("Worker got {} requests", Arrays.toString(requests.toArray()));
         for (RequestQueue request : requests) {

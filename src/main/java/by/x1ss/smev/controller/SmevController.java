@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -20,7 +21,7 @@ public class SmevController {
     private ResponseService responseService;
 
     @PostMapping("/request/put/")
-    public HttpStatus putRequest(@RequestBody RequestQueue requestQueue) {
+    public HttpStatus putRequest(@Valid @RequestBody RequestQueue requestQueue) {
         requestService.putRequest(requestQueue);
         return HttpStatus.PROCESSING;
     }

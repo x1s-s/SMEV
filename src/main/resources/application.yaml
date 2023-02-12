@@ -8,6 +8,10 @@ spring:
     password: 1234
   liquibase:
     enabled: true
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
 
 

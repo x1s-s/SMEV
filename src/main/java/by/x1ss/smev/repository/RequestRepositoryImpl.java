@@ -19,6 +19,7 @@ public class RequestRepositoryImpl implements RequestRepository{
     private static final String SQL_SAVE = "INSERT INTO request_queue (uuid, client_identifier, is_juridical) VALUES (?, ?, ?)";
     private static final String SQL_DELETE_BY_UUID = "DELETE FROM request_queue WHERE uuid = ?";
     private static final String SQL_COUNT = "SELECT COUNT(*) FROM request_queue";
+    private static final String SQL_FIND_BY_UUID = "SELECT * FROM request_queue WHERE uuid = ?";
 
     @Autowired
     public RequestRepositoryImpl(JdbcTemplate jdbcTemplate) {
@@ -46,5 +47,10 @@ public class RequestRepositoryImpl implements RequestRepository{
     @Override
     public Long count() {
         return jdbcTemplate.queryForObject(SQL_COUNT, Long.class);
+    }
+
+    @Override
+    public RequestQueue findByUuid(UUID uuid) {
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_UUID, RequestRepository.ROW_MAPPER, uuid);
     }
 }
