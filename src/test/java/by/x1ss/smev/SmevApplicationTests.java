@@ -4,8 +4,8 @@ import by.x1ss.smev.entity.RequestQueue;
 import by.x1ss.smev.entity.ResponseQueue;
 import by.x1ss.smev.repository.RequestRepository;
 import by.x1ss.smev.repository.ResponseRepository;
-import by.x1ss.smev.service.RequestService;
-import by.x1ss.smev.service.ResponseService;
+import by.x1ss.smev.service.RequestServiceImpl;
+import by.x1ss.smev.service.ResponseServiceImpl;
 import by.x1ss.smev.worker.Worker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ class SmevApplicationTests {
     @Autowired
     private RequestRepository requestRepository;
     @Autowired
-    private RequestService requestService;
+    private RequestServiceImpl requestService;
     @Autowired
-    private ResponseService responseService;
+    private ResponseServiceImpl responseService;
     @Autowired
     private Worker worker;
 
