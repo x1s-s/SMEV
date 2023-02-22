@@ -6,22 +6,42 @@ import by.x1ss.smev.repository.RequestRepository;
 import by.x1ss.smev.repository.ResponseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Arrays;
 import java.util.List;
 
 @Component
 @Slf4j
 public class Worker extends Thread {
+    private static Boolean stooped = false;
     @Autowired
     private ResponseRepository responseRepository;
     @Autowired
     private RequestRepository requestRepository;
 
+    @PostConstruct
+    @Profile("!test")
+    public void beginning(){
+        this.start();
+        log.info("Worker started");
+    }
+
+
+    @PreDestroy
+    @Profile("!test")
+    public void finish(){
+        stooped = true;
+        log.info("Worker finished");
+    }
+
+
     @Override
     public void run() {
-        while (true) {
+        while (!stooped) {
             log.info("Worker started processing requests");
             processRequests();
             log.info("Worker finished processing requests");
