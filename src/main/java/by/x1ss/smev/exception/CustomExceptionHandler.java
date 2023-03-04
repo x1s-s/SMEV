@@ -12,4 +12,9 @@ public class CustomExceptionHandler {
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
         return ResponseEntity.badRequest().body(e.getMessage().substring(e.getMessage().indexOf(':') + 1));
     }
+
+    @ExceptionHandler(NotFoundPenaltyException.class)
+    public ResponseEntity<Object> handleNotFoundPenaltyException(){
+        return ResponseEntity.noContent().build();
+    }
 }

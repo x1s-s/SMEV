@@ -46,4 +46,49 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="create-penalty-table" author="x1ss">
+        <createTable tableName="penalty">
+            <column name="client_identifier" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accrual_amount" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount_pay" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resolution_number" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resolution_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="administrative_code" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_juridical" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="insert-test-penalties" author="x1ss">
+        <insert tableName="penalty">
+            <column name="client_identifier">1234567890</column>
+            <column name="accrual_amount">2.5</column>
+            <column name="amount_pay">2</column>
+            <column name="resolution_number">1234</column>
+            <column name="resolution_date">2023-02-02</column>
+            <column name="administrative_code">123</column>
+            <column name="is_juridical">false</column>
+        </insert>
+        <insert tableName="penalty">
+            <column name="client_identifier">А111АА00</column>
+            <column name="accrual_amount">5.5</column>
+            <column name="amount_pay">5</column>
+            <column name="resolution_number">56789</column>
+            <column name="resolution_date">2021-01-01</column>
+            <column name="administrative_code">456</column>
+            <column name="is_juridical">true</column>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

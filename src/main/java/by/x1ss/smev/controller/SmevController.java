@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/smev")
+@RequestMapping(path = "/smev", produces = "application/xml")
 @Tag(name = "User", description = "SMEV service contoller for another service")
 public class SmevController {
     @Autowired

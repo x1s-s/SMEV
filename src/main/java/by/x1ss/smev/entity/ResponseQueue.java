@@ -25,15 +25,14 @@ public class ResponseQueue {
     private String administrativeCode;
     private Boolean isJuridical;
 
-    public ResponseQueue(RequestQueue requestQueue) {
-        this.uuid = requestQueue.getUuid();
-        this.clientIdentifier = requestQueue.getClientIdentifier();
-        this.isJuridical = requestQueue.getIsJuridical();
-        double hash = requestQueue.getClientIdentifier().hashCode();
-        accrualAmount = hash;
-        amountPay = hash;
-        resolutionNumber = hash;
-        resolutionDate = LocalDate.MAX;
-        administrativeCode = hash + "";
+    public ResponseQueue(Penalty penalty, UUID uuid) {
+        this.uuid = uuid;
+        this.clientIdentifier = penalty.getClientIdentifier();
+        this.isJuridical = penalty.getIsJuridical();
+        accrualAmount = penalty.getAccrualAmount();
+        amountPay = penalty.getAmountPay();
+        resolutionNumber = penalty.getResolutionNumber();
+        resolutionDate = penalty.getResolutionDate();
+        administrativeCode = penalty.getAdministrativeCode();
     }
 }

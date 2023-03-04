@@ -1,7 +1,9 @@
 package by.x1ss.smev.worker;
 
+import by.x1ss.smev.entity.Penalty;
 import by.x1ss.smev.entity.RequestQueue;
 import by.x1ss.smev.entity.ResponseQueue;
+import by.x1ss.smev.repository.PenaltyRepository;
 import by.x1ss.smev.repository.RequestRepository;
 import by.x1ss.smev.repository.ResponseRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ public class Worker extends Thread {
     private ResponseRepository responseRepository;
     @Autowired
     private RequestRepository requestRepository;
+    @Autowired
+    private PenaltyRepository penaltyRepository;
 
     @PostConstruct
     @Profile("!test")
@@ -59,7 +63,12 @@ public class Worker extends Thread {
         List<RequestQueue> requests = requestRepository.findAll();
         log.info("Worker got {} requests", Arrays.toString(requests.toArray()));
         for (RequestQueue request : requests) {
-            responseRepository.save(new ResponseQueue(request));
+            try {
+                Penalty penalty = penaltyRepository.findByClientIdentifier(request.getClientIdentifier());
+                responseRepository.save(new ResponseQueue(penalty, request.getUuid()));
+            } catch (IndexOutOfBoundsException e){
+                log.info("can't find in penalty database request with client identifier {}", request.getClientIdentifier());
+            }
             requestRepository.deleteByUUID(request.getUuid());
         }
     }
