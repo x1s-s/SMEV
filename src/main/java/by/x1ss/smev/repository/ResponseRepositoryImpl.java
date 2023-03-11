@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -14,7 +15,7 @@ public class ResponseRepositoryImpl implements ResponseRepository{
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String SQL_FIND_BY_UUID = "SELECT TOP(1) * FROM response_queue WHERE uuid = ?";
+    private static final String SQL_FIND_BY_UUID = "SELECT * FROM response_queue WHERE uuid = ?";
     private static final String SQL_DELETE_BY_UUID = "DELETE FROM response_queue WHERE uuid = ?";
     private static final String SQL_SAVE = "INSERT INTO response_queue " +
             "(uuid, client_identifier, accrual_amount, amount_pay, resolution_number, resolution_date, administrative_code, is_juridical) " +
@@ -26,8 +27,8 @@ public class ResponseRepositoryImpl implements ResponseRepository{
     }
 
     @Override
-    public ResponseQueue findByUuid(UUID uuid) throws IndexOutOfBoundsException{
-        return jdbcTemplate.query(SQL_FIND_BY_UUID, ResponseRepository.ROW_MAPPER, uuid).get(0);
+    public List<ResponseQueue> findByUuid(UUID uuid){
+        return jdbcTemplate.query(SQL_FIND_BY_UUID, ResponseRepository.ROW_MAPPER, uuid);
     }
 
     @Override

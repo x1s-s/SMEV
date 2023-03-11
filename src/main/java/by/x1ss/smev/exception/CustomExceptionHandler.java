@@ -1,8 +1,10 @@
 package by.x1ss.smev.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ConstraintViolationException;
 
@@ -13,8 +15,7 @@ public class CustomExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage().substring(e.getMessage().indexOf(':') + 1));
     }
 
-    @ExceptionHandler(NotFoundPenaltyException.class)
-    public ResponseEntity<Object> handleNotFoundPenaltyException(){
-        return ResponseEntity.noContent().build();
-    }
+    @ExceptionHandler(PenaltyNotFoundException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void handleNotFoundPenaltyException(){}
 }

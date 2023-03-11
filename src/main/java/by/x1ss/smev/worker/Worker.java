@@ -29,7 +29,7 @@ public class Worker extends Thread {
 
     @PostConstruct
     @Profile("!test")
-    public void beginning(){
+    public void beginning() {
         this.start();
         log.info("Worker started");
     }
@@ -37,21 +37,21 @@ public class Worker extends Thread {
 
     @PreDestroy
     @Profile("!test")
-    public void finish(){
+    public void finish() {
         stooped = true;
         log.info("Worker finished");
     }
 
 
     @Override
-    public void run() {
+    public void run(){
         while (!stooped) {
             log.info("Worker started processing requests");
             processRequests();
             log.info("Worker finished processing requests");
             while (requestRepository.count() == 0) {
                 try {
-                    Thread.sleep(250);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     log.error("Worker was interrupted", e);
                 }
@@ -63,11 +63,10 @@ public class Worker extends Thread {
         List<RequestQueue> requests = requestRepository.findAll();
         log.info("Worker got {} requests", Arrays.toString(requests.toArray()));
         for (RequestQueue request : requests) {
-            try {
-                Penalty penalty = penaltyRepository.findByClientIdentifier(request.getClientIdentifier());
-                responseRepository.save(new ResponseQueue(penalty, request.getUuid()));
-            } catch (IndexOutOfBoundsException e){
-                log.info("can't find in penalty database request with client identifier {}", request.getClientIdentifier());
+            List<Penalty> penalty = penaltyRepository.findByClientIdentifier(request.getClientIdentifier());
+            log.info("Worker got {} penalties", Arrays.toString(penalty.toArray()));
+            if(!penalty.isEmpty()){
+                penalty.forEach(p -> responseRepository.save(new ResponseQueue(p, request.getUuid())));
             }
             requestRepository.deleteByUUID(request.getUuid());
         }

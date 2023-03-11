@@ -3,6 +3,8 @@ package by.x1ss.smev.repository;
 import by.x1ss.smev.entity.Penalty;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.util.List;
+
 public interface PenaltyRepository {
     RowMapper<Penalty> ROW_MAPPER = (resultSet, i) -> Penalty.builder()
             .clientIdentifier(resultSet.getString("client_identifier"))
@@ -14,5 +16,5 @@ public interface PenaltyRepository {
             .resolutionNumber(resultSet.getDouble("resolution_number"))
             .build();
 
-    Penalty findByClientIdentifier(String clientIdentifier);
+    List<Penalty> findByClientIdentifier(String clientIdentifier);
 }

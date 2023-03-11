@@ -1,8 +1,8 @@
 package by.x1ss.smev;
 
+import by.x1ss.smev.DTO.ResponseList;
 import by.x1ss.smev.entity.RequestQueue;
 import by.x1ss.smev.entity.ResponseQueue;
-import by.x1ss.smev.exception.NotFoundPenaltyException;
 import by.x1ss.smev.repository.RequestRepository;
 import by.x1ss.smev.repository.ResponseRepository;
 import by.x1ss.smev.service.RequestServiceImpl;
@@ -46,9 +46,9 @@ class SmevApplicationTests {
                 .build();
         responseQueue.setResolutionDate(LocalDate.now());
         responseRepository.save(responseQueue);
-        assertEquals(responseQueue, responseRepository.findByUuid(responseQueue.getUuid()));
+        assertEquals(responseQueue, responseRepository.findByUuid(responseQueue.getUuid()).get(0));
         responseRepository.deleteByUuid(responseQueue.getUuid());
-        assertThrows(IndexOutOfBoundsException.class, () -> responseRepository.findByUuid(responseQueue.getUuid()));
+        assertThrows(IndexOutOfBoundsException.class, () -> responseRepository.findByUuid(responseQueue.getUuid()).get(0));
     }
 
     @Test
@@ -77,7 +77,7 @@ class SmevApplicationTests {
     }
 
     @Test
-    void testResponseServiceAndWorker() throws NotFoundPenaltyException {
+    void testResponseServiceAndWorker(){
         RequestQueue requestQueue = RequestQueue.builder()
                 .uuid(UUID.randomUUID())
                 .clientIdentifier("1234567890")
@@ -90,11 +90,11 @@ class SmevApplicationTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ResponseQueue responseQueue = responseService.getResponse(requestQueue.getUuid());
+        ResponseList responseQueue = responseService.getResponse(requestQueue.getUuid());
         assertNotNull(responseQueue);
-        assertEquals(requestQueue.getUuid(), responseQueue.getUuid());
-        responseService.confirmResponse(responseQueue.getUuid());
-        assertThrows(IndexOutOfBoundsException.class, () -> responseRepository.findByUuid(responseQueue.getUuid()));
+        assertEquals(requestQueue.getUuid(), responseQueue.getResponses().get(0).getUuid());
+        responseService.confirmResponse(requestQueue.getUuid());
+        assertThrows(IndexOutOfBoundsException.class, () -> responseRepository.findByUuid(requestQueue.getUuid()).get(0));
     }
 
     @Test

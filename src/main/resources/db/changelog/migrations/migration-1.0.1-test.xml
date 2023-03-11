@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="insert-test-penalties" author="x1ss">
+        <insert tableName="penalty">
+            <column name="client_identifier">1234567890</column>
+            <column name="accrual_amount">2.5</column>
+            <column name="amount_pay">2</column>
+            <column name="resolution_number">1234</column>
+            <column name="resolution_date">2023-02-02</column>
+            <column name="administrative_code">123</column>
+            <column name="is_juridical">false</column>
+        </insert>
+        <insert tableName="penalty">
+            <column name="client_identifier">1234567890</column>
+            <column name="accrual_amount">4.5</column>
+            <column name="amount_pay">4</column>
+            <column name="resolution_number">4</column>
+            <column name="resolution_date">2023-04-04</column>
+            <column name="administrative_code">4</column>
+            <column name="is_juridical">false</column>
+        </insert>
+        <insert tableName="penalty">
+            <column name="client_identifier">А111АА00</column>
+            <column name="accrual_amount">5.5</column>
+            <column name="amount_pay">5</column>
+            <column name="resolution_number">56789</column>
+            <column name="resolution_date">2021-01-01</column>
+            <column name="administrative_code">456</column>
+            <column name="is_juridical">true</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

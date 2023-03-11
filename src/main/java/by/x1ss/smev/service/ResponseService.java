@@ -1,11 +1,10 @@
 package by.x1ss.smev.service;
 
-import by.x1ss.smev.entity.ResponseQueue;
-import by.x1ss.smev.exception.NotFoundPenaltyException;
+import by.x1ss.smev.DTO.ResponseList;
 
 import java.util.UUID;
 
 public interface ResponseService {
-    ResponseQueue getResponse(UUID uuid) throws NotFoundPenaltyException;
+    ResponseList getResponse(UUID uuid);
     void confirmResponse(UUID uuid);
 }

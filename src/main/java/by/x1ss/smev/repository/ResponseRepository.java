@@ -3,6 +3,7 @@ package by.x1ss.smev.repository;
 import by.x1ss.smev.entity.ResponseQueue;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ResponseRepository{
@@ -18,7 +19,7 @@ public interface ResponseRepository{
             .build();
 
 
-    ResponseQueue findByUuid(UUID uuid);
+    List<ResponseQueue> findByUuid(UUID uuid);
 
     void deleteByUuid(UUID uuid);
 

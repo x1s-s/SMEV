@@ -1,7 +1,7 @@
 package by.x1ss.smev.controller;
 
+import by.x1ss.smev.DTO.ResponseList;
 import by.x1ss.smev.entity.RequestQueue;
-import by.x1ss.smev.entity.ResponseQueue;
 import by.x1ss.smev.service.RequestService;
 import by.x1ss.smev.service.ResponseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/smev", produces = "application/xml")
+@RequestMapping(path = "/smev")
 @Tag(name = "User", description = "SMEV service contoller for another service")
 public class SmevController {
     @Autowired
@@ -31,12 +31,14 @@ public class SmevController {
 
     @Operation(summary = "Try to get response", tags = "response")
     @GetMapping("response/{uuid}")
-    public ResponseQueue getResponse(@PathVariable UUID uuid) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseList getResponse(@PathVariable UUID uuid) {
         return responseService.getResponse(uuid);
     }
 
     @Operation(summary = "Delete response", tags = "response")
     @DeleteMapping("response/confirm/{uuid}")
+    @ResponseStatus(HttpStatus.OK)
     public void confirmResponse(@PathVariable UUID uuid) {
         responseService.confirmResponse(uuid);
     }
