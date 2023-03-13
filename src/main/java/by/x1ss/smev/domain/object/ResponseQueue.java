@@ -1,6 +1,5 @@
-package by.x1ss.smev.entity;
+package by.x1ss.smev.domain.object;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.validation.constraints.Pattern;
@@ -15,7 +14,6 @@ import java.util.UUID;
 @Builder
 @ToString
 public class ResponseQueue {
-    @JsonIgnore
     private UUID uuid;
     @Pattern(regexp = "^[\\d+]{10}$|^[АВЕКМНОРСТУХ]\\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\\d{2,3}$",
         message = "Incorrect client identifier in response")

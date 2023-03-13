@@ -1,6 +1,5 @@
-package by.x1ss.smev.DTO;
+package by.x1ss.smev.domain.object;
 
-import by.x1ss.smev.entity.ResponseQueue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

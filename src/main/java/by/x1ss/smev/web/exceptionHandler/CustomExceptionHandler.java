@@ -1,5 +1,6 @@
-package by.x1ss.smev.exception;
+package by.x1ss.smev.web.exceptionHandler;
 
+import by.x1ss.smev.domain.logic.processRequest.service.exception.PenaltyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

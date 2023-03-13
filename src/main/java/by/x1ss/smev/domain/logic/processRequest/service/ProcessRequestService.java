@@ -1,10 +1,12 @@
-package by.x1ss.smev.service;
+package by.x1ss.smev.domain.logic.processRequest.service;
 
-import by.x1ss.smev.DTO.ResponseList;
-import by.x1ss.smev.entity.ResponseQueue;
-import by.x1ss.smev.exception.PenaltyNotFoundException;
-import by.x1ss.smev.repository.RequestRepository;
-import by.x1ss.smev.repository.ResponseRepository;
+import by.x1ss.smev.domain.object.ResponseList;
+import by.x1ss.smev.domain.object.RequestQueue;
+import by.x1ss.smev.domain.object.ResponseQueue;
+import by.x1ss.smev.domain.logic.processRequest.service.exception.PenaltyNotFoundException;
+import by.x1ss.smev.domain.logic.processRequest.contracts.RequestRepository;
+import by.x1ss.smev.domain.logic.processRequest.contracts.ResponseRepository;
+import by.x1ss.smev.domain.logic.processRequest.api.ProcessRequestServiceAPI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,16 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-public class ResponseServiceImpl implements ResponseService {
+public class ProcessRequestService implements ProcessRequestServiceAPI {
     @Autowired
     private ResponseRepository responseRepository;
     @Autowired
     private RequestRepository requestRepository;
+
+    public void putRequest(RequestQueue requestQueue) {
+        log.info("RequestService put request {}", requestQueue);
+        requestRepository.save(requestQueue);
+    }
 
     public ResponseList getResponse(UUID uuid){
         log.info("ResponseService try to give response with uuid {}", uuid);

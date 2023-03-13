@@ -1,4 +1,4 @@
-package by.x1ss.smev.entity;
+package by.x1ss.smev.domain.object;
 
 import lombok.*;
 

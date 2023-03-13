@@ -1,13 +1,12 @@
-package by.x1ss.smev.worker;
+package by.x1ss.smev.domain.worker;
 
-import by.x1ss.smev.entity.Penalty;
-import by.x1ss.smev.entity.RequestQueue;
-import by.x1ss.smev.entity.ResponseQueue;
-import by.x1ss.smev.repository.PenaltyRepository;
-import by.x1ss.smev.repository.RequestRepository;
-import by.x1ss.smev.repository.ResponseRepository;
+import by.x1ss.smev.domain.logic.processRequest.contracts.PenaltyRepository;
+import by.x1ss.smev.domain.logic.processRequest.contracts.RequestRepository;
+import by.x1ss.smev.domain.logic.processRequest.contracts.ResponseRepository;
+import by.x1ss.smev.domain.object.Penalty;
+import by.x1ss.smev.domain.object.RequestQueue;
+import by.x1ss.smev.domain.object.ResponseQueue;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +19,15 @@ import java.util.List;
 @Slf4j
 public class Worker extends Thread {
     private static Boolean stooped = false;
-    @Autowired
-    private ResponseRepository responseRepository;
-    @Autowired
-    private RequestRepository requestRepository;
-    @Autowired
-    private PenaltyRepository penaltyRepository;
+    private final ResponseRepository responseRepository;
+    private final RequestRepository requestRepository;
+    private final PenaltyRepository penaltyRepository;
+
+    public Worker(ResponseRepository responseRepository, RequestRepository requestRepository, PenaltyRepository penaltyRepository) {
+        this.responseRepository = responseRepository;
+        this.requestRepository = requestRepository;
+        this.penaltyRepository = penaltyRepository;
+    }
 
     @PostConstruct
     @Profile("!test")

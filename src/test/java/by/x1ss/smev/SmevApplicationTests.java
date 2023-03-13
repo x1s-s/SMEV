@@ -1,13 +1,12 @@
 package by.x1ss.smev;
 
-import by.x1ss.smev.DTO.ResponseList;
-import by.x1ss.smev.entity.RequestQueue;
-import by.x1ss.smev.entity.ResponseQueue;
-import by.x1ss.smev.repository.RequestRepository;
-import by.x1ss.smev.repository.ResponseRepository;
-import by.x1ss.smev.service.RequestServiceImpl;
-import by.x1ss.smev.service.ResponseServiceImpl;
-import by.x1ss.smev.worker.Worker;
+import by.x1ss.smev.domain.logic.processRequest.contracts.RequestRepository;
+import by.x1ss.smev.domain.logic.processRequest.contracts.ResponseRepository;
+import by.x1ss.smev.domain.logic.processRequest.service.ProcessRequestService;
+import by.x1ss.smev.domain.object.RequestQueue;
+import by.x1ss.smev.domain.object.ResponseList;
+import by.x1ss.smev.domain.object.ResponseQueue;
+import by.x1ss.smev.domain.worker.Worker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,9 +26,7 @@ class SmevApplicationTests {
     @Autowired
     private RequestRepository requestRepository;
     @Autowired
-    private RequestServiceImpl requestService;
-    @Autowired
-    private ResponseServiceImpl responseService;
+    private ProcessRequestService processRequestService;
     @Autowired
     private Worker worker;
 
@@ -71,7 +68,7 @@ class SmevApplicationTests {
                 .clientIdentifier("1234567890")
                 .isJuridical(false)
                 .build();
-        requestService.putRequest(requestQueue);
+        processRequestService.putRequest(requestQueue);
         assertEquals(requestQueue, requestRepository.findByUuid(requestQueue.getUuid()));
         requestRepository.deleteByUUID(requestQueue.getUuid());
     }
@@ -83,17 +80,17 @@ class SmevApplicationTests {
                 .clientIdentifier("1234567890")
                 .isJuridical(false)
                 .build();
-        requestService.putRequest(requestQueue);
+        processRequestService.putRequest(requestQueue);
         worker.processRequests();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ResponseList responseQueue = responseService.getResponse(requestQueue.getUuid());
+        ResponseList responseQueue = processRequestService.getResponse(requestQueue.getUuid());
         assertNotNull(responseQueue);
         assertEquals(requestQueue.getUuid(), responseQueue.getResponses().get(0).getUuid());
-        responseService.confirmResponse(requestQueue.getUuid());
+        processRequestService.confirmResponse(requestQueue.getUuid());
         assertThrows(IndexOutOfBoundsException.class, () -> responseRepository.findByUuid(requestQueue.getUuid()).get(0));
     }
 

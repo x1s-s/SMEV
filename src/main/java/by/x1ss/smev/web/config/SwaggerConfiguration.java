@@ -1,4 +1,4 @@
-package by.x1ss.smev.config;
+package by.x1ss.smev.web.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
