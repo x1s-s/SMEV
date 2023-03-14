@@ -1,13 +1,14 @@
 package by.x1ss.smev.web.controller;
 
 import by.x1ss.smev.domain.logic.processRequest.api.ProcessRequestServiceAPI;
-import by.x1ss.smev.domain.object.RequestQueue;
+import by.x1ss.smev.web.dto.RequestQueueDTO;
 import by.x1ss.smev.web.dto.ResponseListDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -23,8 +24,8 @@ public class SmevController {
     @Operation(summary = "Put request to query", tags = "request")
     @PostMapping("/request/put/")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void putRequest(@RequestBody RequestQueue requestQueue) {
-        processRequestServiceAPI.putRequest(requestQueue);
+    public void putRequest(@RequestBody @Valid RequestQueueDTO requestQueue) {
+        processRequestServiceAPI.putRequest(RequestQueueDTO.fromDTO(requestQueue));
     }
 
     @Operation(summary = "Try to get response", tags = "response")

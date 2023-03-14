@@ -2,7 +2,6 @@ package by.x1ss.smev.domain.object;
 
 import lombok.*;
 
-import javax.validation.constraints.Pattern;
 import java.util.UUID;
 
 @Getter
@@ -14,8 +13,6 @@ import java.util.UUID;
 @ToString
 public class RequestQueue {
     private UUID uuid;
-    @Pattern(regexp = "^[\\d+]{10}$|^[АВЕКМНОРСТУХ]\\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\\d{2,3}$",
-            message = "Incorrect client identifier in request")
     private String clientIdentifier;
     private Boolean isJuridical;
 

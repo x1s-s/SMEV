@@ -2,7 +2,6 @@ package by.x1ss.smev.domain.object;
 
 import lombok.*;
 
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Getter
@@ -13,8 +12,6 @@ import java.time.LocalDate;
 @Builder
 @ToString
 public class Penalty {
-    @Pattern(regexp = "^[\\d+]{10}$|^[АВЕКМНОРСТУХ]\\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\\d{2,3}$",
-            message = "Incorrect client identifier in penalty")
     private String clientIdentifier;
     private double accrualAmount;
     private double amountPay;
